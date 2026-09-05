@@ -46,5 +46,8 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 
 
-$router->get('/show-users','UserController::show_users');
+
+$router->get('/', 'UserController::show_users');
+$router->get('/show-users', 'UserController::show_users');
+
 ?>
