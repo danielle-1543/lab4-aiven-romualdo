@@ -12,7 +12,7 @@ class UserController extends Controller {
     {
 
         $users = $this->UserModel->all();
-       ddt ($users, 'Users Table' ); 
+       //ddt ($users, 'Users Table' ); 
         $this->call->view('users');
 
     }
