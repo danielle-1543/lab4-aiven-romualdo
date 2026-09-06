@@ -11,11 +11,16 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
     <title>Users</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
             margin: 0;
-            padding: 40px;
+            padding: 40px 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f4f4;
+            color: #222;
         }
 
         .container {
@@ -25,21 +30,34 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
         }
 
         h1 {
-            text-align: center;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
             color: #222;
-            margin-bottom: 10px;
+            text-align: center;
         }
 
         .description {
+            margin: 8px 0 30px;
             text-align: center;
             color: #666;
-            margin-bottom: 30px;
+            font-size: 14px;
         }
 
         .table-container {
             background: #fff;
-            padding: 25px;
-            border: 1px solid #ddd;
+            border: 1px solid #d9d9d9;
+        }
+
+        .table-title {
+            padding: 18px 20px;
+            border-bottom: 1px solid #ddd;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
         }
 
         table {
@@ -48,18 +66,25 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
         }
 
         th {
+            padding: 14px 16px;
             background: #222;
             color: #fff;
-            padding: 12px;
             text-align: left;
+            font-size: 13px;
+            font-weight: 600;
         }
 
         td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
+            padding: 14px 16px;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 14px;
         }
 
-        tr:hover {
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
             background: #f7f7f7;
         }
 
@@ -68,9 +93,34 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
         }
 
         .footer {
-            margin-top: 15px;
-            color: #777;
+            padding: 14px 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
             font-size: 13px;
+        }
+
+        .empty {
+            padding: 25px;
+            text-align: center;
+            color: #777;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 25px 10px;
+            }
+
+            .container {
+                width: 100%;
+            }
+
+            table {
+                min-width: 700px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
@@ -87,35 +137,55 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
     <div class="table-container">
 
-        <table>
+        <div class="table-title">
+            Users Table
+        </div>
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Username</th>
-                </tr>
-            </thead>
+        <div class="table-wrapper">
 
-            <tbody>
+            <table>
 
-                <?php foreach ($users as $user): ?>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Username</th>
+                    </tr>
+                </thead>
 
-                <tr>
-                    <td class="id"><?= $user->id; ?></td>
-                    <td><?= $user->firstname; ?></td>
-                    <td><?= $user->lastname; ?></td>
-                    <td><?= $user->email; ?></td>
-                    <td><?= $user->username; ?></td>
-                </tr>
+                <tbody>
 
-                <?php endforeach; ?>
+                    <?php if (!empty($users)): ?>
 
-            </tbody>
+                        <?php foreach ($users as $user): ?>
 
-        </table>
+                            <tr>
+                                <td class="id"><?= $user['id']; ?></td>
+                                <td><?= $user['firstname']; ?></td>
+                                <td><?= $user['lastname']; ?></td>
+                                <td><?= $user['email']; ?></td>
+                                <td><?= $user['username']; ?></td>
+                            </tr>
+
+                        <?php endforeach; ?>
+
+                    <?php else: ?>
+
+                        <tr>
+                            <td colspan="5" class="empty">
+                                No users found.
+                            </td>
+                        </tr>
+
+                    <?php endif; ?>
+
+                </tbody>
+
+            </table>
+
+        </div>
 
         <div class="footer">
             Total Users: <?= count($users); ?>
